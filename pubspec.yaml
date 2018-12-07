@@ -1,0 +1,15 @@
+name: naumen_smp_rest
+description: Sinple future-based library for Naumen SMP REST API. Looks like internal Groovy methods.
+version: '0.0.1'
+homepage: 'https://github.com/mdemyanov/naumen-smp-rest'
+author: 'mdemyanov <mdemyanov@naumen.ru>'
+
+environment:
+  sdk: '>=2.1.0 <3.0.0'
+
+dependencies:
+  http: ^0.12.0
+#  path: ^1.4.1
+
+dev_dependencies:
+#  test: ^1.0.0
