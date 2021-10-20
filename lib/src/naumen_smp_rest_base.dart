@@ -43,7 +43,7 @@ Future<Map> findFirst(String fqn, Map attributes) async {
 /// Принимает на вход ссылку на объект [url] вида server/sd/services/rest/get/uuid
 Future<Map> getObjectByUrl(String url) async {
   try {
-    final response = await _http.get(url);
+    final response = await _http.get(Uri.parse(url));
     return _extractData(response);
   } catch (e) {
     print('[utils.getObjectByUrl] ${e.toString()}');
@@ -56,7 +56,7 @@ Future<Map> getObjectByUrl(String url) async {
 /// Принимает на вход идентификатор объекта [uuid]
 Future<Map> get(String uuid) async {
   try {
-    final response = await _http.get('$_get/$uuid');
+    final response = await _http.get(Uri.parse('$_get/$uuid'));
     return _extractData(response);
   } catch (e) {
     print('[utils.get] ${e.toString()}');
@@ -71,9 +71,9 @@ Future<Map> get(String uuid) async {
 Future<List> find(String fqn, Map attributes) async {
   try {
     final response = await _http.get(
-        Uri.https('', '$_find/$fqn/${_encodeParams(attributes)}')
+        Uri.parse(Uri.https('', '$_find/$fqn/${_encodeParams(attributes)}')
             .toString()
-            .substring(6));
+            .substring(6)));
     return _extractData(response);
   } catch (e) {
     print('[utils.find] ${e.toString()}');
@@ -87,7 +87,7 @@ Future<List> find(String fqn, Map attributes) async {
 /// атрибутов и устанавливаемых значений [attributes]
 Future<Map> create(String fqn, Map attributes) async {
   try {
-    final response = await _http.post('$_create/$fqn',
+    final response = await _http.post(Uri.parse('$_create/$fqn'),
         headers: _headers, body: json.encode(attributes));
     return _extractData(response);
   } catch (e) {
@@ -103,7 +103,7 @@ Future<Map> create(String fqn, Map attributes) async {
 Future<Map> execPostContent(String methodLink, Map requestContent) async {
   try {
     final response = await _http.post(
-        '$_execPost?func=modules.$methodLink&params=requestContent,user',
+        Uri.parse('$_execPost?func=modules.$methodLink&params=requestContent,user'),
         headers: _headers,
         body: json.encode(requestContent));
     return _extractData(response);
@@ -120,7 +120,7 @@ Future<Map> execPostContent(String methodLink, Map requestContent) async {
 Future<Map> execPostArgs(String methodLink, List<String> arguments) async {
   try {
     final response = await _http.post(
-        '$_execPost?func=modules.$methodLink&params=${arguments.join(',')}',
+        Uri.parse('$_execPost?func=modules.$methodLink&params=${arguments.join(',')}'),
         headers: _headers);
     return _extractData(response);
   } catch (e) {
@@ -137,7 +137,7 @@ Future<String> edit(String uuid, Map attributes) async {
   final String body = json.encode(attributes);
   try {
     final response =
-    await _http.post('$_edit$uuid', headers: _headers, body: body);
+    await _http.post(Uri.parse('$_edit$uuid'), headers: _headers, body: body);
     return response.body;
   } catch (e) {
     print('[utils.edit: $uuid] ${e.toString()}');
